@@ -6,6 +6,8 @@ from typing import Optional, Dict, List, Union
 
 import numpy as np
 
+from itertools import islice
+
 from haystack import Document, Label, MultiLabel, BaseComponent
 from haystack.errors import DuplicateDocumentError
 from haystack.preprocessor.preprocessor import PreProcessor
@@ -361,3 +363,13 @@ class BaseDocumentStore(BaseComponent):
                 duplicate_ids.append(label.id)
 
         return [label for label in labels if label.id in duplicate_ids]
+
+def get_batches_from_generator(iterable, n):
+    """
+    Batch elements of an iterable into fixed-length chunks or blocks.
+    """
+    it = iter(iterable)
+    x = tuple(islice(it, n))
+    while x:
+        yield x
+        x = tuple(islice(it, n))
