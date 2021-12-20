@@ -285,6 +285,7 @@ class Pipeline(BasePipeline):
             if predecessors.isdisjoint(set(queue.keys())):  # only execute if predecessor nodes are executed
                 try:
                     logger.debug(f"Running node `{node_id}` with input `{node_input}`")
+                    logger.info("value of self.graph.nodes ==> `{self.graph.nodes}`") # adding to check will remove this
                     node_output, stream_id = self.graph.nodes[node_id]["component"]._dispatch_run(**node_input)
                 except Exception as e:
                     tb = traceback.format_exc()
