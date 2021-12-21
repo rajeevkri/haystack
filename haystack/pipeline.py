@@ -286,9 +286,9 @@ class Pipeline(BasePipeline):
                 try:
                     logger.debug(f"Running node `{node_id}` with input `{node_input}`")
                     logger.info(f" value of self.graph.nodes ==> `{self.graph.nodes}`") # adding to check will remove this
-                    logger.info(f" value of self.graph.nodes ==> `{self.graph.nodes[node_id]}`") # adding to check will remove this
+                    logger.info(f" value of self.graph.nodes[node_id] ==> `{self.graph.nodes[node_id]}`") # adding to check will remove this
                     comp_raj = self.graph.nodes[node_id]["component"]
-                    logger.info(f" value of self.graph.nodes ==> `{comp_raj}`") # adding to check will remove this
+                    logger.info(f" value of comp_raj ==> `{comp_raj}`") # adding to check will remove this
                     # logger.info(f" value of self.graph.nodes ==> `{self.graph.nodes[node_id]["component"]}`") # adding to check will remove this
                     node_output, stream_id = self.graph.nodes[node_id]["component"]._dispatch_run(**node_input)
                 except Exception as e:
