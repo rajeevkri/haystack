@@ -132,7 +132,9 @@ class BaseComponent:
             if key in run_signature_args:
                 run_inputs[key] = value
 
+        logger.info(f"self.run is being called with params =  `{run_params}`")
         output, stream = self.run(**run_inputs, **run_params)
+        logger.info("self.run done being called ")
 
         # Collect debug information
         debug_info = {}

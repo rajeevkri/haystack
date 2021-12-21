@@ -290,7 +290,7 @@ class Pipeline(BasePipeline):
                     comp_raj = self.graph.nodes[node_id]["component"]
                     logger.info(f" value of comp_raj ==> `{comp_raj}`") # adding to check will remove this
                     # logger.info(f" value of self.graph.nodes ==> `{self.graph.nodes[node_id]["component"]}`") # adding to check will remove this
-                    node_output, stream_id = self.graph.nodes[node_id]["component"].retrieve(**node_input)
+                    node_output, stream_id = self.graph.nodes[node_id]["component"]._dispatch_run(**node_input)
                 except Exception as e:
                     tb = traceback.format_exc()
                     raise Exception(f"Exception while running node `{node_id}` with input `{node_input}`: {e}, full stack trace: {tb}")
