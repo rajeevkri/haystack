@@ -455,6 +455,10 @@ class Milvus2DocumentStore(SQLDocumentStore):
             collection_name=index,
             dsl=dsl,
             fields=[self.id_field],
+            data= query_emb.tolist(),
+            anns_field= self.embedding_field,
+            param=self.search_param,
+            limit=10
         )
 
         vector_ids_for_query = []
