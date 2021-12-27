@@ -5,6 +5,9 @@ import mmh3
 import numpy as np
 from abc import abstractmethod
 import inspect
+import logging
+
+logger = logging.getLogger(__name__)
 
 class Document:
     def __init__(
@@ -340,11 +343,13 @@ class BaseComponent:
           - collate _debug information if present
           - merge component output with the preceding output and pass it on to the subsequent Component in the Pipeline
         """
+        logger.info(f'_dispatch_run method is called with arguments {kwargs}')
         arguments = deepcopy(kwargs)
         params = arguments.get("params") or {}
 
         run_signature_args = inspect.signature(self.run).parameters.keys()
 
+        logger.info(f'for loop starting with params {params}')
         run_params = {}
         for key, value in params.items():
             if key == self.name:  # targeted params for this node
@@ -355,11 +360,16 @@ class BaseComponent:
                 run_params.update(**value)
             elif key in run_signature_args:  # global params
                 run_params[key] = value
+        logger.info('for loop done 1')
+
+        logger.info(f'for loop starting with arguments {arguments}')
 
         run_inputs = {}
         for key, value in arguments.items():
             if key in run_signature_args:
                 run_inputs[key] = value
+
+        logger.info('for loop done 2')
 
         output, stream = self.run(**run_inputs, **run_params)
 

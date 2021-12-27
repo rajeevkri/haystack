@@ -183,6 +183,7 @@ class BaseRetriever(BaseComponent):
         documents: Optional[List[dict]] = None,
         index: Optional[str] = None,
     ):
+        logger.info(f'run method is being called with documents {documents}, index {documents}')
         if root_node == "Query":
             self.query_count += 1
             run_query_timed = self.timing(self.run_query, "query_time")
@@ -192,6 +193,7 @@ class BaseRetriever(BaseComponent):
             run_indexing = self.timing(self.run_indexing, "index_time")
             output, stream = run_indexing(documents=documents)
         else:
+            logger.error('rasing error')
             raise Exception(f"Invalid root_node '{root_node}'.")
         return output, stream
 
