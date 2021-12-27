@@ -451,6 +451,7 @@ class Milvus2DocumentStore(SQLDocumentStore):
                     }
                 )
 
+        logger.info(f'search method is being called with param collection_name={index}, dsl={dsl}, fields={[self.id_field]}, data= {query_emb.tolist()},anns_field= {self.embedding_field}, param={self.search_param}')
         search_result: QueryResult = connection.search(
             collection_name=index,
             dsl=dsl,
@@ -461,20 +462,25 @@ class Milvus2DocumentStore(SQLDocumentStore):
             limit=10
         )
 
+        logger.info(f'search result retrieved = {search_result}')
+
         vector_ids_for_query = []
         scores_for_vector_ids: Dict[str, float] = {}
         for vector_id, distance in zip(search_result[0].ids, search_result[0].distances):
             vector_ids_for_query.append(str(vector_id))
             scores_for_vector_ids[str(vector_id)] = distance
+        
+        logger.info('for loop done for zip')
 
         documents = self.get_documents_by_vector_ids(vector_ids_for_query, index=index)
-
+        logger.info(f'documents retrieved = {documents}')
         if return_embedding:
             self._populate_embeddings_to_docs(index=index, docs=documents)
-
+        logger.info('return embedding done')
         for doc in documents:
             raw_score = scores_for_vector_ids[doc.meta["vector_id"]]
             doc.score = float(expit(np.asarray(raw_score / 100)))
+        logger.info('iteration in documents done')
 
         return documents
 
