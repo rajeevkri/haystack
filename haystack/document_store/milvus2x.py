@@ -451,15 +451,13 @@ class Milvus2DocumentStore(SQLDocumentStore):
                     }
                 )
 
-        logger.info(f'search method is being called with param collection_name={index}, dsl={dsl}, fields={[self.id_field]}, data= {query_emb.tolist()},anns_field= {self.embedding_field}, param={self.search_param}')
+        logger.info(f'search method is being called with param  data= {query_emb.tolist()},anns_field= {self.embedding_field}, param={self.search_param}')
         search_result: QueryResult = connection.search(
-            collection_name=index,
-            dsl=dsl,
-            fields=[self.id_field],
-            data= query_emb.tolist(),
+           data= query_emb.tolist(),
             anns_field= self.embedding_field,
             param=self.search_param,
-            limit=10
+            limit=10,
+            output_fields=["random"]
         )
 
         logger.info(f'search result retrieved = {search_result}')
