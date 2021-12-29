@@ -458,7 +458,7 @@ class Milvus2DocumentStore(SQLDocumentStore):
             anns_field= self.embedding_field,
             param=self.search_param,
             limit=10,
-            output_fields=[self.embedding_field]
+            output_fields=[self.return_embedding]
         )
 
         logger.info(f'search result retrieved = {search_result}')
