@@ -453,7 +453,8 @@ class Milvus2DocumentStore(SQLDocumentStore):
 
         logger.info(f'search method is being called with param  data= {query_emb.tolist()},anns_field= {self.embedding_field}, param={self.search_param}')
         search_result: QueryResult = connection.search(
-           data= query_emb.tolist(),
+            collection_name=index,
+            data= query_emb.tolist(),
             anns_field= self.embedding_field,
             param=self.search_param,
             limit=10,
