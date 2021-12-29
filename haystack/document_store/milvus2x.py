@@ -457,8 +457,9 @@ class Milvus2DocumentStore(SQLDocumentStore):
             data= query_emb.tolist(),
             anns_field= self.embedding_field,
             param=self.search_param,
-            limit=10,
-            output_fields=["random"]
+            limit=10
+            # ,
+            # output_fields=[self.embedding_field]
         )
 
         logger.info(f'search result retrieved = {search_result}')
